@@ -35,12 +35,12 @@ func validateFlags() {
 		exit("must provide -token flag")
 	}
 
-	if *owner == "" || *name == "" {
-		exit("must provide repo owner and name")
+	if *owner == "" {
+		exit("must provide -owner flag")
 	}
 
 	if *formula == "" {
-		exit("must provide formula name")
+		exit("must provide -formula flag")
 	}
 }
 
