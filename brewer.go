@@ -18,11 +18,15 @@ func CreateGitHubClient(token string) *github.Client {
 // FetchFormula fetches the contents of the formula from the given repository.
 func FetchFormula(c *github.Client, owner, repo, formula string) (string, error) {
 	// TODO: implement
+	// get formula file contents...
+	// - https://github.com/google/go-github/blob/master/github/repos_contents.go#L143
 	return "", nil
 }
 
 // UpdateFormula updates the contents of the formula from the given repository.
 func UpdateFormula(c *github.Client, owner, repo, formula, contents string) error {
 	// TODO: implement
+	// update formula file contents...
+	// - https://github.com/google/go-github/blob/master/github/repos_contents.go#L192
 	return nil
 }
