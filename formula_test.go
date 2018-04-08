@@ -6,11 +6,11 @@ import (
 	"github.com/tombell/brewer"
 )
 
-func TestFormulaSHA(t *testing.T) {
+func TestFormulaContentsSHA(t *testing.T) {
 	formula := &brewer.Formula{Contents: "Hello World"}
 
 	expected := "a591a6d40bf420404a011733cfb7b190d62c65bf0bcda32b57b277d9ad9f146e"
-	actual := formula.SHA()
+	actual := formula.ContentsSHA()
 
 	if expected != actual {
 		t.Errorf("sha expected %s, but got %s", expected, actual)

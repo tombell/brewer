@@ -7,7 +7,12 @@ import (
 	"regexp"
 )
 
-const tagRegexp = `(?i):tag => "(.*)"`
+const (
+	tagRegexp = `(?i):tag => "(.*)"`
+	revRegexp = `(?i):revision => "(.*)"`
+	urlRegexp = `(?i)url "(.*)"`
+	shaRegexp = `(?i)sha256 "(.*)"`
+)
 
 // Formula represents a Homebrew formula that can be updated.
 type Formula struct {
@@ -15,8 +20,8 @@ type Formula struct {
 	Contents string
 }
 
-// SHA returns the SHA256 hash of the formula contents.
-func (f *Formula) SHA() string {
+// ContentsSHA returns the SHA256 hash of the formula contents.
+func (f *Formula) ContentsSHA() string {
 	hash := sha256.New()
 	hash.Write([]byte(f.Contents))
 
@@ -47,14 +52,30 @@ func (f *Formula) UpdateTag(tag string) error {
 	return nil
 }
 
+// Revision returns the value for `:revision => "{{revision}}"` if the formula
+// has one.
+func (f *Formula) Revision() string {
+	return ""
+}
+
 // UpdateRevision updates the `:revision => "{{revision}}"` part of a formula.
 func (f *Formula) UpdateRevision(rev string) error {
 	return nil
 }
 
+// URL returns the value for `url "{{url}}"` if the formula has one.
+func (f *Formula) URL() string {
+	return ""
+}
+
 // UpdateURL updates the `url "{{url}}"` part of a formula.
 func (f *Formula) UpdateURL(url string) error {
 	return nil
+}
+
+// SHA256 returns the value for the `sha256 "{{sha}}"` if the formula has one.
+func (f *Formula) SHA256() string {
+	return ""
 }
 
 // UpdateSHA256 updates the `sha256 "{{sha}}"` part of a formula.
