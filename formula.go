@@ -3,7 +3,11 @@ package brewer
 import (
 	"crypto/sha256"
 	"encoding/hex"
+	"fmt"
+	"regexp"
 )
+
+const tagRegexp = `(?i):tag => "(.*)"`
 
 // Formula represents a Homebrew formula that can be updated.
 type Formula struct {
@@ -19,8 +23,27 @@ func (f *Formula) SHA() string {
 	return hex.EncodeToString(hash.Sum(nil))
 }
 
+// Tag returns the value for `:tag => "{{tag}}"` if the formula has one.
+func (f *Formula) Tag() string {
+	r, _ := regexp.Compile(tagRegexp)
+	matches := r.FindStringSubmatch(f.Contents)
+
+	if matches == nil {
+		return ""
+	}
+
+	return matches[len(matches)-1]
+}
+
 // UpdateTag updates the `:tag => "{{tag}}"` part of a formula.
 func (f *Formula) UpdateTag(tag string) error {
+	r, err := regexp.Compile(tagRegexp)
+	if err != nil {
+		return err
+	}
+
+	f.Contents = r.ReplaceAllString(f.Contents, fmt.Sprintf(`:tag => "%s"`, tag))
+
 	return nil
 }
 
