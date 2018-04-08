@@ -25,20 +25,22 @@ func usage() {
 	os.Exit(2)
 }
 
+func exit(msg string) {
+	fmt.Fprintf(os.Stderr, "%s\n", msg)
+	os.Exit(1)
+}
+
 func validateFlags() {
 	if *token == "" {
-		fmt.Fprintf(os.Stderr, "must provide -token flag\n")
-		os.Exit(1)
+		exit("must provide -token flag")
 	}
 
 	if *owner == "" || *name == "" {
-		fmt.Fprintf(os.Stderr, "must provide repo owner and name\n")
-		os.Exit(1)
+		exit("must provide repo owner and name")
 	}
 
 	if *formula == "" {
-		fmt.Fprintf(os.Stderr, "must provide formula name\n")
-		os.Exit(1)
+		exit("must provide formula name")
 	}
 }
 
