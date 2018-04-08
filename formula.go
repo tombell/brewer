@@ -55,30 +55,36 @@ func (f *Formula) UpdateTag(tag string) error {
 // Revision returns the value for `:revision => "{{revision}}"` if the formula
 // has one.
 func (f *Formula) Revision() string {
+	// TODO
 	return ""
 }
 
 // UpdateRevision updates the `:revision => "{{revision}}"` part of a formula.
 func (f *Formula) UpdateRevision(rev string) error {
+	// TODO
 	return nil
 }
 
 // URL returns the value for `url "{{url}}"` if the formula has one.
 func (f *Formula) URL() string {
+	// TODO
 	return ""
 }
 
 // UpdateURL updates the `url "{{url}}"` part of a formula.
 func (f *Formula) UpdateURL(url string) error {
+	// TODO
 	return nil
 }
 
 // SHA256 returns the value for the `sha256 "{{sha}}"` if the formula has one.
 func (f *Formula) SHA256() string {
+	// TODO
 	return ""
 }
 
 // UpdateSHA256 updates the `sha256 "{{sha}}"` part of a formula.
 func (f *Formula) UpdateSHA256(sha string) error {
+	// TODO
 	return nil
 }
