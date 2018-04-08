@@ -1,2 +1,3 @@
 # brewer
-Command-line app to update Homebrew formulae
+
+Command-line app to update Homebrew formulae.
