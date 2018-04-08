@@ -29,4 +29,7 @@ darwin:
 windows:
 	GOOS=windows GOARCH=${GOARCH} go build ${LDFLAGS} -o dist/${BINARY}-windows-${GOARCH} ${PACKAGE}
 
+test:
+	@go test -v github.com/tombell/brewer
+
 .PHONY: all clean dev dist build linux darwin windows
