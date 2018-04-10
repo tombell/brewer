@@ -32,4 +32,4 @@ windows:
 test:
 	@go test -v github.com/tombell/brewer
 
-.PHONY: all clean dev dist build linux darwin windows
+.PHONY: all clean dev dist build linux darwin windows test
