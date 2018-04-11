@@ -55,8 +55,14 @@ func (f *Formula) UpdateTag(tag string) error {
 // Revision returns the value for `:revision => "{{revision}}"` if the formula
 // has one.
 func (f *Formula) Revision() string {
-	// TODO
-	return ""
+	r, _ := regexp.Compile(revRegexp)
+	matches := r.FindStringSubmatch(f.Contents)
+
+	if matches == nil {
+		return ""
+	}
+
+	return matches[len(matches)-1]
 }
 
 // UpdateRevision updates the `:revision => "{{revision}}"` part of a formula.
