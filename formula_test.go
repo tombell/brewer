@@ -158,3 +158,39 @@ func TestFormulaRevision(t *testing.T) {
 		})
 	}
 }
+
+func TestFormulaUpdateRevision(t *testing.T) {
+	tt := []struct {
+		name     string
+		input    string
+		revision string
+		expected string
+	}{
+		{
+			name:     "FormulaWithTag",
+			input:    formulaWithTag,
+			revision: "b2cd2dc739420df385a3bc996fc5335bb7cdf444",
+			expected: "b2cd2dc739420df385a3bc996fc5335bb7cdf444",
+		},
+		{
+			name:     "FormulaWithoutTag",
+			input:    formulaWithoutTag,
+			revision: "",
+			expected: "",
+		},
+	}
+
+	for _, tc := range tt {
+		t.Run(tc.name, func(t *testing.T) {
+			formula := brewer.Formula{Contents: tc.input}
+			formula.UpdateRevision(tc.revision)
+
+			expected := tc.expected
+			actual := formula.Revision()
+
+			if expected != actual {
+				t.Errorf("expected %s, but got %s", expected, actual)
+			}
+		})
+	}
+}

@@ -67,7 +67,13 @@ func (f *Formula) Revision() string {
 
 // UpdateRevision updates the `:revision => "{{revision}}"` part of a formula.
 func (f *Formula) UpdateRevision(rev string) error {
-	// TODO
+	r, err := regexp.Compile(revRegexp)
+	if err != nil {
+		return err
+	}
+
+	f.Contents = r.ReplaceAllString(f.Contents, fmt.Sprintf(`:revision => "%s"`, rev))
+
 	return nil
 }
 
