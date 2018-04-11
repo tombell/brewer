@@ -32,7 +32,7 @@ func TestFormulaContentsSHA(t *testing.T) {
 	actual := formula.ContentsSHA()
 
 	if expected != actual {
-		t.Errorf("sha expected %s, but got %s", expected, actual)
+		t.Errorf("expected %s, but got %s", expected, actual)
 	}
 }
 
@@ -43,7 +43,7 @@ func TestFormulaTag(t *testing.T) {
 	actual := formula.Tag()
 
 	if expected != actual {
-		t.Errorf("tag expected %s, but got %s", expected, actual)
+		t.Errorf("expected %s, but got %s", expected, actual)
 	}
 }
 
@@ -54,7 +54,7 @@ func TestFormulaTagNotFound(t *testing.T) {
 	actual := formula.Tag()
 
 	if expected != actual {
-		t.Errorf("tag expected %s, but got %s", expected, actual)
+		t.Errorf("expected %s, but got %s", expected, actual)
 	}
 }
 
@@ -66,6 +66,6 @@ func TestFormulaUpdateTag(t *testing.T) {
 	actual := formula.Tag()
 
 	if expected != actual {
-		t.Errorf("updated tag expected %s, but got %s", expected, actual)
+		t.Errorf("expected %s, but got %s", expected, actual)
 	}
 }
