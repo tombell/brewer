@@ -7,7 +7,7 @@ import (
 )
 
 const (
-	formulaTagRevision = `
+	formulaWithTag = `
 class Releasekit < Formula
   desc "Create GitHub releases from closed issues and pull requests"
   homepage "https://github.com/tombell/releasekit"
@@ -17,55 +17,112 @@ class Releasekit < Formula
 
   depends_on "go" => :build`
 
-	formulaUrlSha = `
+	formulaWithoutTag = `
 class Lock < Formula
   desc "Command-line app to quickly lock macOS"
   homepage "https://github.com/tombell/lock"
   url "https://github.com/tombell/lock/archive/v1.0.0.tar.gz"
-  sha256 "5c8a518829a40193c805ff85f3c799f8755e2f81c7a00b9ab32698c801897a17"`
+  sha256 "5c8a518829a40193c805ff85f3c799f8755e2f81c7a00b9ab32698c801897a17"
+
+  depends_on "go" => :build`
 )
 
 func TestFormulaContentsSHA(t *testing.T) {
-	formula := &brewer.Formula{Contents: "Hello World"}
+	tt := []struct {
+		name     string
+		input    string
+		expected string
+	}{
+		{
+			name:     "Empty",
+			input:    "",
+			expected: "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+		},
+		{
+			name:     "Simple",
+			input:    "Hello World",
+			expected: "a591a6d40bf420404a011733cfb7b190d62c65bf0bcda32b57b277d9ad9f146e",
+		},
+	}
 
-	expected := "a591a6d40bf420404a011733cfb7b190d62c65bf0bcda32b57b277d9ad9f146e"
-	actual := formula.ContentsSHA()
+	for _, tc := range tt {
+		t.Run(tc.name, func(t *testing.T) {
+			formula := brewer.Formula{Contents: tc.input}
 
-	if expected != actual {
-		t.Errorf("expected %s, but got %s", expected, actual)
+			expected := tc.expected
+			actual := formula.ContentsSHA()
+
+			if expected != actual {
+				t.Errorf("expected %s, but got %s", expected, actual)
+			}
+		})
 	}
 }
 
 func TestFormulaTag(t *testing.T) {
-	formula := &brewer.Formula{Contents: formulaTagRevision}
-
-	expected := "v0.1.1"
-	actual := formula.Tag()
-
-	if expected != actual {
-		t.Errorf("expected %s, but got %s", expected, actual)
+	tt := []struct {
+		name     string
+		input    string
+		expected string
+	}{
+		{
+			name:     "FormulaWithTag",
+			input:    formulaWithTag,
+			expected: "v0.1.1",
+		},
+		{
+			name:     "FormulaWithoutTag",
+			input:    formulaWithoutTag,
+			expected: "",
+		},
 	}
-}
 
-func TestFormulaTagNotFound(t *testing.T) {
-	formula := &brewer.Formula{Contents: formulaUrlSha}
+	for _, tc := range tt {
+		t.Run(tc.name, func(t *testing.T) {
+			formula := brewer.Formula{Contents: tc.input}
 
-	expected := ""
-	actual := formula.Tag()
+			expected := tc.expected
+			actual := formula.Tag()
 
-	if expected != actual {
-		t.Errorf("expected %s, but got %s", expected, actual)
+			if expected != actual {
+				t.Errorf("expected %s, but got %s", expected, actual)
+			}
+		})
 	}
 }
 
 func TestFormulaUpdateTag(t *testing.T) {
-	formula := &brewer.Formula{Contents: formulaTagRevision}
-	formula.UpdateTag("v2.0.0")
+	tt := []struct {
+		name     string
+		input    string
+		tag      string
+		expected string
+	}{
+		{
+			name:     "FormulaWithTag",
+			input:    formulaWithTag,
+			tag:      "v2.0.0",
+			expected: "v2.0.0",
+		},
+		{
+			name:     "FormulaWithoutTag",
+			input:    formulaWithoutTag,
+			tag:      "v2.0.0",
+			expected: "",
+		},
+	}
 
-	expected := "v2.0.0"
-	actual := formula.Tag()
+	for _, tc := range tt {
+		t.Run(tc.name, func(t *testing.T) {
+			formula := brewer.Formula{Contents: tc.input}
+			formula.UpdateTag(tc.tag)
 
-	if expected != actual {
-		t.Errorf("expected %s, but got %s", expected, actual)
+			expected := tc.expected
+			actual := formula.Tag()
+
+			if expected != actual {
+				t.Errorf("expected %s, but got %s", expected, actual)
+			}
+		})
 	}
 }
