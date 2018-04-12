@@ -15,7 +15,31 @@ class Releasekit < Formula
     :tag => "v0.1.1",
     :revision => "6c4e8a83b3632c8a5670261c657d8a01c5f0680b"
 
-  depends_on "go" => :build`
+  depends_on "go" => :build
+
+  def install
+    ENV["GOPATH"] = buildpath
+    (buildpath/"src/github.com/tombell/releasekit").install buildpath.children
+    cd "src/github.com/tombell/releasekit" do
+      commit = Utils.popen_read("git rev-parse --short HEAD").chomp
+      ldflags = [
+        "-X main.Version=#{version}",
+        "-X main.Commit=#{commit}",
+      ]
+      system "go", "build",
+             "-o", bin/"releasekit",
+             "-ldflags", ldflags.join(" "),
+             "github.com/tombell/releasekit/cmd/releasekit"
+      prefix.install_metafiles
+    end
+  end
+
+  test do
+    # TODO
+    # system "#{bin}/releasekit"
+  end
+end
+`
 
 	formulaWithoutTag = `
 class Lock < Formula
@@ -23,8 +47,18 @@ class Lock < Formula
   homepage "https://github.com/tombell/lock"
   url "https://github.com/tombell/lock/archive/v1.0.0.tar.gz"
   sha256 "5c8a518829a40193c805ff85f3c799f8755e2f81c7a00b9ab32698c801897a17"
+  head "https://github.com/tombell/lock.git"
 
-  depends_on "go" => :build`
+  def install
+    system "clang", "-framework", "login", "-F", "/System/Library/PrivateFrameworks", "--output=lock", "lock.c"
+    bin.install "lock"
+  end
+
+  test do
+    # how to test this? :joy:
+  end
+end
+`
 )
 
 func TestFormulaContentsSHA(t *testing.T) {
