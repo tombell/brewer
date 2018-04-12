@@ -92,7 +92,13 @@ func (f *Formula) URL() string {
 
 // UpdateURL updates the `url "{{url}}"` part of a formula.
 func (f *Formula) UpdateURL(url string) error {
-	// TODO
+	r, err := regexp.Compile(urlRegexp)
+	if err != nil {
+		return err
+	}
+
+	f.Contents = r.ReplaceAllString(f.Contents, fmt.Sprintf(`url "%s"`, url))
+
 	return nil
 }
 

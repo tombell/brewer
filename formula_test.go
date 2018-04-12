@@ -226,3 +226,39 @@ func TestFormulaURL(t *testing.T) {
 		})
 	}
 }
+
+func TestFormulaUpdateURL(t *testing.T) {
+	tt := []struct {
+		name     string
+		input    string
+		url      string
+		expected string
+	}{
+		{
+			name:     "FormulaWithTag",
+			input:    formulaWithTag,
+			url:      "https://github.com/releasekit/releasekit.git",
+			expected: "https://github.com/releasekit/releasekit.git",
+		},
+		{
+			name:     "FormulaWithoutTag",
+			input:    formulaWithoutTag,
+			url:      "https://github.com/tombell/lock/archive/v2.0.0.tar.gz",
+			expected: "https://github.com/tombell/lock/archive/v2.0.0.tar.gz",
+		},
+	}
+
+	for _, tc := range tt {
+		t.Run(tc.name, func(t *testing.T) {
+			formula := brewer.Formula{Contents: tc.input}
+			formula.UpdateURL(tc.url)
+
+			expected := tc.expected
+			actual := formula.URL()
+
+			if expected != actual {
+				t.Errorf("expected %s, but got %s", expected, actual)
+			}
+		})
+	}
+}
