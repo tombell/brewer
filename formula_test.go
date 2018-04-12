@@ -101,13 +101,11 @@ func TestFormulaUpdateTag(t *testing.T) {
 		{
 			name:     "FormulaWithTag",
 			input:    formulaWithTag,
-			tag:      "v2.0.0",
 			expected: "v2.0.0",
 		},
 		{
 			name:     "FormulaWithoutTag",
 			input:    formulaWithoutTag,
-			tag:      "v2.0.0",
 			expected: "",
 		},
 	}
@@ -115,7 +113,7 @@ func TestFormulaUpdateTag(t *testing.T) {
 	for _, tc := range tt {
 		t.Run(tc.name, func(t *testing.T) {
 			formula := brewer.Formula{Contents: tc.input}
-			formula.UpdateTag(tc.tag)
+			formula.UpdateTag(tc.expected)
 
 			expected := tc.expected
 			actual := formula.Tag()
@@ -169,13 +167,11 @@ func TestFormulaUpdateRevision(t *testing.T) {
 		{
 			name:     "FormulaWithTag",
 			input:    formulaWithTag,
-			revision: "b2cd2dc739420df385a3bc996fc5335bb7cdf444",
 			expected: "b2cd2dc739420df385a3bc996fc5335bb7cdf444",
 		},
 		{
 			name:     "FormulaWithoutTag",
 			input:    formulaWithoutTag,
-			revision: "",
 			expected: "",
 		},
 	}
@@ -183,7 +179,7 @@ func TestFormulaUpdateRevision(t *testing.T) {
 	for _, tc := range tt {
 		t.Run(tc.name, func(t *testing.T) {
 			formula := brewer.Formula{Contents: tc.input}
-			formula.UpdateRevision(tc.revision)
+			formula.UpdateRevision(tc.expected)
 
 			expected := tc.expected
 			actual := formula.Revision()
@@ -231,19 +227,16 @@ func TestFormulaUpdateURL(t *testing.T) {
 	tt := []struct {
 		name     string
 		input    string
-		url      string
 		expected string
 	}{
 		{
 			name:     "FormulaWithTag",
 			input:    formulaWithTag,
-			url:      "https://github.com/releasekit/releasekit.git",
 			expected: "https://github.com/releasekit/releasekit.git",
 		},
 		{
 			name:     "FormulaWithoutTag",
 			input:    formulaWithoutTag,
-			url:      "https://github.com/tombell/lock/archive/v2.0.0.tar.gz",
 			expected: "https://github.com/tombell/lock/archive/v2.0.0.tar.gz",
 		},
 	}
@@ -251,7 +244,7 @@ func TestFormulaUpdateURL(t *testing.T) {
 	for _, tc := range tt {
 		t.Run(tc.name, func(t *testing.T) {
 			formula := brewer.Formula{Contents: tc.input}
-			formula.UpdateURL(tc.url)
+			formula.UpdateURL(tc.expected)
 
 			expected := tc.expected
 			actual := formula.URL()
