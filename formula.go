@@ -79,7 +79,6 @@ func (f *Formula) UpdateRevision(rev string) error {
 
 // URL returns the value for `url "{{url}}"` if the formula has one.
 func (f *Formula) URL() string {
-	// TODO
 	r, _ := regexp.Compile(urlRegexp)
 	matches := r.FindStringSubmatch(f.Contents)
 
