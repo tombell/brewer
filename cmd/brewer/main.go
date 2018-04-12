@@ -4,6 +4,8 @@ import (
 	"flag"
 	"fmt"
 	"os"
+
+	"github.com/tombell/brewer"
 )
 
 const helpText = `usage: brewer [options]
@@ -18,6 +20,15 @@ var (
 	name  = flag.String("name", "homebrew-formulae", "")
 
 	formula = flag.String("formula", "", "")
+
+	tag      = flag.String("tag", "", "")
+	revision = flag.String("revision", "", "")
+	url      = flag.String("url", "", "")
+	sha256   = flag.String("sha256", "", "")
+
+	message = flag.String("commit-message", "", "")
+	author  = flag.String("commit-author", "", "")
+	email   = flag.String("commit-email", "", "")
 )
 
 func usage() {
@@ -45,7 +56,7 @@ func validateFlags() {
 }
 
 func main() {
-	flag.Usage = usage
+	// flag.Usage = usage
 	flag.Parse()
 
 	if *version {
@@ -54,4 +65,22 @@ func main() {
 	}
 
 	validateFlags()
+
+	config := brewer.Config{
+		Token:         *token,
+		Owner:         *owner,
+		Repo:          *name,
+		Path:          *formula,
+		Tag:           *tag,
+		Revision:      *revision,
+		URL:           *url,
+		SHA256:        *sha256,
+		CommitMessage: *message,
+		CommitAuthor:  *author,
+		CommitEmail:   *email,
+	}
+
+	if err := brewer.Run(config); err != nil {
+		fmt.Printf("error: %v\n", err)
+	}
 }

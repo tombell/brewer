@@ -1,8 +1,6 @@
 package brewer
 
 import (
-	"crypto/sha256"
-	"encoding/hex"
 	"fmt"
 	"regexp"
 )
@@ -18,14 +16,7 @@ const (
 type Formula struct {
 	Path     string
 	Contents string
-}
-
-// ContentsSHA returns the SHA256 hash of the formula contents.
-func (f *Formula) ContentsSHA() string {
-	hash := sha256.New()
-	hash.Write([]byte(f.Contents))
-
-	return hex.EncodeToString(hash.Sum(nil))
+	FileSHA  string
 }
 
 // Tag returns the value for `:tag => "{{tag}}"` if the formula has one.

@@ -61,38 +61,6 @@ end
 `
 )
 
-func TestFormulaContentsSHA(t *testing.T) {
-	tt := []struct {
-		name     string
-		contents string
-		expected string
-	}{
-		{
-			name:     "Empty",
-			contents: "",
-			expected: "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-		},
-		{
-			name:     "Simple",
-			contents: "Hello World",
-			expected: "a591a6d40bf420404a011733cfb7b190d62c65bf0bcda32b57b277d9ad9f146e",
-		},
-	}
-
-	for _, tc := range tt {
-		t.Run(tc.name, func(t *testing.T) {
-			formula := brewer.Formula{Contents: tc.contents}
-
-			expected := tc.expected
-			actual := formula.ContentsSHA()
-
-			if expected != actual {
-				t.Errorf("expected %s, but got %s", expected, actual)
-			}
-		})
-	}
-}
-
 func TestFormulaTag(t *testing.T) {
 	tt := []struct {
 		name     string
