@@ -104,8 +104,14 @@ func (f *Formula) UpdateURL(url string) error {
 
 // SHA256 returns the value for the `sha256 "{{sha}}"` if the formula has one.
 func (f *Formula) SHA256() string {
-	// TODO
-	return ""
+	r, _ := regexp.Compile(shaRegexp)
+	matches := r.FindStringSubmatch(f.Contents)
+
+	if matches == nil {
+		return ""
+	}
+
+	return matches[len(matches)-1]
 }
 
 // UpdateSHA256 updates the `sha256 "{{sha}}"` part of a formula.
