@@ -116,6 +116,12 @@ func (f *Formula) SHA256() string {
 
 // UpdateSHA256 updates the `sha256 "{{sha}}"` part of a formula.
 func (f *Formula) UpdateSHA256(sha string) error {
-	// TODO
+	r, err := regexp.Compile(shaRegexp)
+	if err != nil {
+		return err
+	}
+
+	f.Contents = r.ReplaceAllString(f.Contents, fmt.Sprintf(`sha256 "%s"`, sha))
+
 	return nil
 }

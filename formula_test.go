@@ -319,3 +319,36 @@ func TestFormulaSHA256(t *testing.T) {
 		})
 	}
 }
+
+func TestFormulaUpdateSHA256(t *testing.T) {
+	tt := []struct {
+		name     string
+		contents string
+		expected string
+	}{
+		{
+			name:     "FormulaWithTag",
+			contents: formulaWithTag,
+			expected: "",
+		},
+		{
+			name:     "FormulaWithoutTag",
+			contents: formulaWithoutTag,
+			expected: "6c4e8a83b3632c8a5670261c657d8a01c5f0680b",
+		},
+	}
+
+	for _, tc := range tt {
+		t.Run(tc.name, func(t *testing.T) {
+			formula := brewer.Formula{Contents: tc.contents}
+			formula.UpdateSHA256(tc.expected)
+
+			expected := tc.expected
+			actual := formula.SHA256()
+
+			if expected != actual {
+				t.Errorf("expected %s, but got %s", expected, actual)
+			}
+		})
+	}
+}
