@@ -80,7 +80,14 @@ func (f *Formula) UpdateRevision(rev string) error {
 // URL returns the value for `url "{{url}}"` if the formula has one.
 func (f *Formula) URL() string {
 	// TODO
-	return ""
+	r, _ := regexp.Compile(urlRegexp)
+	matches := r.FindStringSubmatch(f.Contents)
+
+	if matches == nil {
+		return ""
+	}
+
+	return matches[len(matches)-1]
 }
 
 // UpdateURL updates the `url "{{url}}"` part of a formula.
