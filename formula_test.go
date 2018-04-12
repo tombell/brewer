@@ -30,24 +30,24 @@ class Lock < Formula
 func TestFormulaContentsSHA(t *testing.T) {
 	tt := []struct {
 		name     string
-		input    string
+		contents string
 		expected string
 	}{
 		{
 			name:     "Empty",
-			input:    "",
+			contents: "",
 			expected: "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
 		},
 		{
 			name:     "Simple",
-			input:    "Hello World",
+			contents: "Hello World",
 			expected: "a591a6d40bf420404a011733cfb7b190d62c65bf0bcda32b57b277d9ad9f146e",
 		},
 	}
 
 	for _, tc := range tt {
 		t.Run(tc.name, func(t *testing.T) {
-			formula := brewer.Formula{Contents: tc.input}
+			formula := brewer.Formula{Contents: tc.contents}
 
 			expected := tc.expected
 			actual := formula.ContentsSHA()
@@ -62,24 +62,24 @@ func TestFormulaContentsSHA(t *testing.T) {
 func TestFormulaTag(t *testing.T) {
 	tt := []struct {
 		name     string
-		input    string
+		contents string
 		expected string
 	}{
 		{
 			name:     "FormulaWithTag",
-			input:    formulaWithTag,
+			contents: formulaWithTag,
 			expected: "v0.1.1",
 		},
 		{
 			name:     "FormulaWithoutTag",
-			input:    formulaWithoutTag,
+			contents: formulaWithoutTag,
 			expected: "",
 		},
 	}
 
 	for _, tc := range tt {
 		t.Run(tc.name, func(t *testing.T) {
-			formula := brewer.Formula{Contents: tc.input}
+			formula := brewer.Formula{Contents: tc.contents}
 
 			expected := tc.expected
 			actual := formula.Tag()
@@ -94,25 +94,24 @@ func TestFormulaTag(t *testing.T) {
 func TestFormulaUpdateTag(t *testing.T) {
 	tt := []struct {
 		name     string
-		input    string
-		tag      string
+		contents string
 		expected string
 	}{
 		{
 			name:     "FormulaWithTag",
-			input:    formulaWithTag,
+			contents: formulaWithTag,
 			expected: "v2.0.0",
 		},
 		{
 			name:     "FormulaWithoutTag",
-			input:    formulaWithoutTag,
+			contents: formulaWithoutTag,
 			expected: "",
 		},
 	}
 
 	for _, tc := range tt {
 		t.Run(tc.name, func(t *testing.T) {
-			formula := brewer.Formula{Contents: tc.input}
+			formula := brewer.Formula{Contents: tc.contents}
 			formula.UpdateTag(tc.expected)
 
 			expected := tc.expected
@@ -128,24 +127,24 @@ func TestFormulaUpdateTag(t *testing.T) {
 func TestFormulaRevision(t *testing.T) {
 	tt := []struct {
 		name     string
-		input    string
+		contents string
 		expected string
 	}{
 		{
 			name:     "FormulaWithTag",
-			input:    formulaWithTag,
+			contents: formulaWithTag,
 			expected: "6c4e8a83b3632c8a5670261c657d8a01c5f0680b",
 		},
 		{
 			name:     "FormulaWithoutTag",
-			input:    formulaWithoutTag,
+			contents: formulaWithoutTag,
 			expected: "",
 		},
 	}
 
 	for _, tc := range tt {
 		t.Run(tc.name, func(t *testing.T) {
-			formula := brewer.Formula{Contents: tc.input}
+			formula := brewer.Formula{Contents: tc.contents}
 
 			expected := tc.expected
 			actual := formula.Revision()
@@ -160,25 +159,24 @@ func TestFormulaRevision(t *testing.T) {
 func TestFormulaUpdateRevision(t *testing.T) {
 	tt := []struct {
 		name     string
-		input    string
-		revision string
+		contents string
 		expected string
 	}{
 		{
 			name:     "FormulaWithTag",
-			input:    formulaWithTag,
+			contents: formulaWithTag,
 			expected: "b2cd2dc739420df385a3bc996fc5335bb7cdf444",
 		},
 		{
 			name:     "FormulaWithoutTag",
-			input:    formulaWithoutTag,
+			contents: formulaWithoutTag,
 			expected: "",
 		},
 	}
 
 	for _, tc := range tt {
 		t.Run(tc.name, func(t *testing.T) {
-			formula := brewer.Formula{Contents: tc.input}
+			formula := brewer.Formula{Contents: tc.contents}
 			formula.UpdateRevision(tc.expected)
 
 			expected := tc.expected
@@ -194,24 +192,24 @@ func TestFormulaUpdateRevision(t *testing.T) {
 func TestFormulaURL(t *testing.T) {
 	tt := []struct {
 		name     string
-		input    string
+		contents string
 		expected string
 	}{
 		{
 			name:     "FormulaWithTag",
-			input:    formulaWithTag,
+			contents: formulaWithTag,
 			expected: "https://github.com/tombell/releasekit.git",
 		},
 		{
 			name:     "FormulaWithoutTag",
-			input:    formulaWithoutTag,
+			contents: formulaWithoutTag,
 			expected: "https://github.com/tombell/lock/archive/v1.0.0.tar.gz",
 		},
 	}
 
 	for _, tc := range tt {
 		t.Run(tc.name, func(t *testing.T) {
-			formula := brewer.Formula{Contents: tc.input}
+			formula := brewer.Formula{Contents: tc.contents}
 
 			expected := tc.expected
 			actual := formula.URL()
@@ -226,24 +224,24 @@ func TestFormulaURL(t *testing.T) {
 func TestFormulaUpdateURL(t *testing.T) {
 	tt := []struct {
 		name     string
-		input    string
+		contents string
 		expected string
 	}{
 		{
 			name:     "FormulaWithTag",
-			input:    formulaWithTag,
+			contents: formulaWithTag,
 			expected: "https://github.com/releasekit/releasekit.git",
 		},
 		{
 			name:     "FormulaWithoutTag",
-			input:    formulaWithoutTag,
+			contents: formulaWithoutTag,
 			expected: "https://github.com/tombell/lock/archive/v2.0.0.tar.gz",
 		},
 	}
 
 	for _, tc := range tt {
 		t.Run(tc.name, func(t *testing.T) {
-			formula := brewer.Formula{Contents: tc.input}
+			formula := brewer.Formula{Contents: tc.contents}
 			formula.UpdateURL(tc.expected)
 
 			expected := tc.expected
