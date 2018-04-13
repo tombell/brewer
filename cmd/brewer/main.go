@@ -9,6 +9,26 @@ import (
 )
 
 const helpText = `usage: brewer [options]
+Special options:
+  --help     show this message, then exit
+  --version  show the brewer version number, then exit
+
+GitHub options:
+  --token  GitHub API token
+  --owner  GitHub repository owner of the Homebrew tap
+  --repo   GitHub repository name of the Homebrew tap (defaults to homebrew-formulae)
+
+Formula options:
+  --formula   Path to the formula in the git repository
+  --tag       New git tag to update in the formula
+  --revision  New revision SHA to update in the formula
+  --url       New URL to update in the formula
+  --sha256    New SHA256 to update in the formula
+
+Commit options:
+  --commit-message  Commit message for the formula update
+  --commit-author   Commit author for the formula update
+  --commit-email    Commit email for the formula update
 
 `
 
@@ -19,8 +39,7 @@ var (
 	owner = flag.String("owner", "", "")
 	name  = flag.String("name", "homebrew-formulae", "")
 
-	formula = flag.String("formula", "", "")
-
+	formula  = flag.String("formula", "", "")
 	tag      = flag.String("tag", "", "")
 	revision = flag.String("revision", "", "")
 	url      = flag.String("url", "", "")
@@ -43,20 +62,28 @@ func exit(msg string) {
 
 func validateFlags() {
 	if *token == "" {
-		exit("must provide -token flag")
+		exit("must provide --token flag for GitHub API token")
 	}
 
 	if *owner == "" {
-		exit("must provide -owner flag")
+		exit("must provide --owner flag for GitHub repository owner")
 	}
 
 	if *formula == "" {
-		exit("must provide -formula flag")
+		exit("must provide --formula flag for formula path")
+	}
+
+	if *author == "" {
+		exit("must provide --author flag for update commit author")
+	}
+
+	if *email == "" {
+		exit("must provide --email flag for update commit email")
 	}
 }
 
 func main() {
-	// flag.Usage = usage
+	flag.Usage = usage
 	flag.Parse()
 
 	if *version {
