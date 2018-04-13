@@ -2,12 +2,13 @@ package brewer
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/google/go-github/github"
 	"golang.org/x/oauth2"
 )
 
-// Config ...
+// Config represents the command line flags passed into the Run function.
 type Config struct {
 	Token string
 	Owner string
@@ -26,6 +27,8 @@ type Config struct {
 
 // Run performs the updating of the given Homebrew formula.
 func Run(config Config) error {
+	fmt.Printf("Updating formula (%s)...\n", config.Path)
+
 	client := createGitHubClient(config.Token)
 
 	formula, err := fetchFormula(client, config)
@@ -34,24 +37,30 @@ func Run(config Config) error {
 	}
 
 	if config.Tag != "" {
+		fmt.Printf("- Updating tag to %s...\n", config.Tag)
 		formula.UpdateTag(config.Tag)
 	}
 
 	if config.Revision != "" {
+		fmt.Printf("- Updating revision to %s...\n", config.Revision)
 		formula.UpdateRevision(config.Revision)
 	}
 
 	if config.URL != "" {
+		fmt.Printf("- Updating URL to %s...\n", config.URL)
 		formula.UpdateURL(config.URL)
 	}
 
 	if config.SHA256 != "" {
+		fmt.Printf("- Updating SHA256 to %s...\n", config.SHA256)
 		formula.UpdateSHA256(config.SHA256)
 	}
 
 	if err := updateFormula(client, config, formula); err != nil {
 		return err
 	}
+
+	fmt.Printf("Finished updating formula (%s)\n", config.Path)
 
 	return nil
 }
