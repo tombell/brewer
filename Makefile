@@ -13,12 +13,10 @@ all: dev
 clean:
 	rm -fr dist/
 
-dev: build
+dev:
+	go build ${LDFLAGS} -o dist/${BINARY} ${PACKAGE}
 
 dist: linux darwin windows
-
-build:
-	go build ${LDFLAGS} -o dist/${BINARY} ${PACKAGE}
 
 linux:
 	GOOS=linux GOARCH=${GOARCH} go build ${LDFLAGS} -o dist/${BINARY}-linux-${GOARCH} ${PACKAGE}
@@ -32,4 +30,4 @@ windows:
 test:
 	@go test github.com/tombell/brewer
 
-.PHONY: all clean dev dist build linux darwin windows test
+.PHONY: all clean dev dist linux darwin windows test
