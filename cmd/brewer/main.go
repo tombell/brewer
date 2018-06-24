@@ -9,6 +9,7 @@ import (
 )
 
 const helpText = `usage: brewer [options]
+
 Special options:
   --help     show this message, then exit
   --version  show the brewer version number, then exit
