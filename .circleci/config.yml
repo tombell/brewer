@@ -10,7 +10,7 @@ jobs:
     steps:
       - checkout
       - run: make test
-      - run: make
+      - run: make cibuild
 
   # build cmd/brewer with VERSION set to git tag
   build-release:
