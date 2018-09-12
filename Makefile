@@ -32,4 +32,4 @@ windows:
 test:
 	go test ${MODFLAGS} ./...
 
-.PHONY: all clean dev dist darwin linux windows test
+.PHONY: all clean dev cibuild dist darwin linux windows test
