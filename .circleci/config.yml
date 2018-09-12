@@ -3,22 +3,25 @@ jobs:
   # build cmd/brewer
   build:
     docker:
-      - image: circleci/golang:1.10.1
+      - image: circleci/golang:1.11.0
+    environment:
+      - GO111MODULE: "on"
     working_directory: /go/src/github.com/tombell/brewer
     steps:
       - checkout
       - run: make test
-      - run: make dev
+      - run: make
 
   # build cmd/brewer with VERSION set to git tag
   build-release:
     docker:
-      - image: circleci/golang:1.10.1
+      - image: circleci/golang:1.11.0
+    environment:
+      - GO111MODULE: "on"
     working_directory: /go/src/github.com/tombell/brewer
     steps:
       - checkout
-      - run: |
-          VERSION="${CIRCLE_TAG}" make dist
+      - run: VERSION="${CIRCLE_TAG}" make dist
       - save_cache:
           key: dist-{{ .Revision }}
           paths:
@@ -27,7 +30,9 @@ jobs:
   # run releasekit to generate release notes and attach build artifacts
   release:
     docker:
-      - image: circleci/golang:1.10.1
+      - image: circleci/golang:1.11.0
+    environment:
+      - GO111MODULE: "on"
     working_directory: /go/src/github.com/tombell/brewer
     steps:
       - checkout
@@ -36,6 +41,7 @@ jobs:
             - dist-{{ .Revision }}
       - run: |
           go get -u github.com/tombell/releasekit/cmd/releasekit
+      - run: |
           releasekit -t ${GITHUB_TOKEN} \
                      -o tombell \
                      -r brewer \
