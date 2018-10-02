@@ -19,7 +19,7 @@ jobs:
           paths:
             - dist/
 
-  release:
+  upload-release:
     docker:
       - image: circleci/golang:1.11.0
     steps:
@@ -55,7 +55,7 @@ workflows:
               ignore: /.*/
             tags:
               only: /.*/
-      - release:
+      - upload-release:
           requires:
             - build-release
           filters:
