@@ -1,7 +1,5 @@
 # brewer
 
-[![CircleCI](https://circleci.com/gh/tombell/brewer/tree/master.svg?style=svg)](https://circleci.com/gh/tombell/brewer/tree/master)
-
 CLI app to update Homebrew formulae.
 
 ## Installation
