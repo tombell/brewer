@@ -7,11 +7,11 @@ CLI app to update Homebrew formulae.
 To get the most up to date binaries, check [the releases][releases] for the
 pre-built binary for your system.
 
+[releases]: https://github.com/tombell/brewer/releases
+
 You can also `go get` to install from source.
 
     go get -u github.com/tombell/brewer/cmd/brewer
-
-[releases]: https://github.com/tombell/brewer/releases
 
 ## Usage
 
@@ -21,7 +21,6 @@ You will need a [GitHub API token][api-token] when running **brewer**. It's
 advised you create a token specifically for **brewer**.
 
 [api-token]: https://github.com/settings/tokens
-
 
 You can update four different parts of a formula with **brewer**.
 
@@ -52,7 +51,3 @@ updates the formula.
 This will pull down `Formula/brewer.rb` from the repository, and update the tag
 and revision lines with `v1.0.0` and `beea04da6f030de641408ca265e31fb01e7dc22f`.
 With the commit message `Update Formula/brewer.rb to v1.0.0`, by Tom Bell.
-
-Fairly simple! In the future I might expand this to be able to update more
-formula options. Potentially even specify a template to render for the formula
-with the given options.
