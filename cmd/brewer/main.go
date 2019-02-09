@@ -34,7 +34,7 @@ Commit options:
 `
 
 var (
-	version = flag.Bool("version", false, "")
+	vrsn = flag.Bool("version", false, "")
 
 	token = flag.String("token", "", "")
 	owner = flag.String("owner", "", "")
@@ -87,8 +87,8 @@ func main() {
 	flag.Usage = usage
 	flag.Parse()
 
-	if *version {
-		fmt.Fprintf(os.Stdout, "brewer %s (%s)\n", Version, Commit)
+	if *vrsn {
+		fmt.Fprintf(os.Stdout, "brewer %s (%s)\n", version, commit)
 		os.Exit(0)
 	}
 
