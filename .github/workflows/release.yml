@@ -1,0 +1,47 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - '!*'
+    tags:
+      - 'v*'
+
+jobs:
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Checkout code
+      uses: actions/checkout@v1
+
+    - name: Set up Go
+      uses: actions/setup-go@v1
+      with:
+        go-version: 1.12
+      id: go
+
+    - name: Install tools
+      run: |
+        go get -u github.com/tombell/releasekit/cmd/releasekit
+      env:
+        GO111MODULE: on
+        GOPATH: /home/runner/work/
+
+    - name: Build binaries
+      run: VERSION="$(basename ${GITHUB_REF})" make dist
+
+    - name: Generate release
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GOPATH: /home/runner/work/
+      run: |
+        $GOPATH/bin/releasekit -t ${GITHUB_TOKEN} \
+                               -o tombell \
+                               -r brewer \
+                               -p $(git tag | sort -V | tail -2 | head -1) \
+                               -n "$(basename ${GITHUB_REF})" \
+                               --attachment dist/brewer-linux-amd64 \
+                               --attachment dist/brewer-darwin-amd64 \
+                               --attachment dist/brewer-windows-amd64
